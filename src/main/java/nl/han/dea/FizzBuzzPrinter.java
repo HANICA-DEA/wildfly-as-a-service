@@ -47,11 +47,11 @@ public class FizzBuzzPrinter {
             // var pfb = new ParallelFizzBuzzer(fbCollector);
             // new Thread(pfb).start();
             new Thread(() -> {
-                new ParallelFizzBuzzer(fbCollector).fizzbuzz();
+                new ParallelFizzBuzzer(fbCollector, new FizzBuzzer()).fizzbuzz();
             }).start();
         }
 
-        // Print determined FizzBuzz values to console.
+        // Print the determined FizzBuzz values to console.
         var fizzbuzzNumbers = fbCollector.getOutput();
         System.out.println("Print concurrently acquired fizzbuzz results...");
         while (!isDone()) {
@@ -62,8 +62,7 @@ public class FizzBuzzPrinter {
         // NB Deze code zit NIET in oefentoets, net zoals de unit tests hiervoor.
         // Je moet dontOrder op true zetten om de in opgave beschreven errors (af en toe) te krijgen,
         // maar om de unit tests te laten slagen moet deze op false staan.
-        var dontOrder = false;
-        var ordered = dontOrder ? fizzbuzzNumbers : fizzbuzzNumbers.stream()
+        var ordered = orderResults ? fizzbuzzNumbers : fizzbuzzNumbers.stream()
             .sorted((r1, r2) -> r1.getInput()-r1.getInput())
             .map(r -> r.getOutput()).toList();  
 
